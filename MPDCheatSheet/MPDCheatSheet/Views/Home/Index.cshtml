@@ -1,0 +1,302 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<link href="~/Content/angularjs-slider-master/dist/rzslider.min.css" rel="stylesheet" />
+<script src="~/Scripts/angular.min.js"></script>
+<script src="~/Content/angularjs-slider-master/dist/rzslider.min.js"></script>
+<script src="~/App/MPDCheatSheetApp.js"></script>
+<script src="~/App/Controller/MPDCalculator.js"></script>
+<link href="~/Content/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<div ng-app="MPDCheatSheet" ng-controller="MPDCalculator" ng-init="Init()">
+
+
+
+<div class="row" style="margin-top: 50px;">
+    <div class="col-lg-12">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#felonies">Felonies</a>
+                </div>
+                <div id="felonies" class="panel-body collapse">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div>
+                                <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span class="fa fa-search"></span>
+                                    </div>
+                                    <input ng-model="SearchFelonyName" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Felony Name">
+
+                                </div>
+                            </div>
+                            <table class="table table-responsive">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="felony in FelonyLaws | filter : SearchFelonyName">
+                                    <td>
+                                        <div>
+                                            <b>{{felony.Name}}  </b>
+                                        </div>
+                                        <div style="display: inline-flex">
+                                            <button style="margin: 5px;" ng-click="AddFelonyAtFull(felony)" class="btn btn-default" type="button"><span class="">Full</span></button>
+
+                                            <button style="margin: 5px;" ng-click="AddAttemptedFelony(felony)" class="btn btn-warning" type="button"><span class="">Attempt</span></button>
+
+                                            <button style="margin: 5px;" ng-click="AddFelonyWithArg(felony)" ng-show="felony.HasArgSentence" ng-disabled="!felony.HasArgSentence" class="btn btn-danger" type="button"><span class="">Aggravated</span></button>
+                                        </div>
+                                    </td>
+  
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#Misdemeanors">Misdemeanors</a>
+                </div>
+                <div id="Misdemeanors" class="panel-body collapse">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div>
+                                <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span class="fa fa-search"></span>
+                                    </div>
+                                    <input ng-model="SearchMisdemeanorsName" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Misdemeanor Name">
+
+                                </div>
+                            </div>
+                            <table class="table table-responsive">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="Misdemeanor in MisdemeanorLaws | filter : SearchMisdemeanorsName">
+                                    <td>
+                                        <div>
+                                            <b>{{Misdemeanor.Name}} </b>
+                                        </div>
+                                        <div style="display: inline-flex">
+                                            <button  style="margin: 5px;" ng-click="AddMisdemeanorAtFull(Misdemeanor)" class="btn btn-default" type="button"><span class="">Full</span></button>
+                                            <button  style="margin: 5px;" ng-click="AddAttemptedMisdemeanor(Misdemeanor)" class="btn btn-warning" type="button"><span class="">Attempt</span></button>
+                                            <button  style="margin: 5px;" ng-click="AddMisdemeanorWithArg(Misdemeanor)" ng-show="Misdemeanor.HasArgSentence" ng-disabled="!Misdemeanor.HasArgSentence" class="btn btn-danger" type="button"><span class=" ">Aggravated</span></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#Minors">Minor</a>
+                </div>
+                <div id="Minors" class="panel-body collapse">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div>
+                                <label class="sr-only" for="inlineFormInputGroupUsername">Username</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <span class="fa fa-search"></span>
+                                    </div>
+                                    <input ng-model="SearchMinorName" type="text" class="form-control" id="inlineFormInputGroupUsername" placeholder="Minor Name">
+
+                                </div>
+                            </div>
+                            <table class="table table-responsive">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="Minor in MinorLaws | filter : SearchMinorName">
+                                    <td>
+                                        <div>
+                                            <b>{{Minor.Name}}</b>
+                                        </div>
+                                        <div style="display: inline-flex;">
+                                            <button  style="margin: 5px;" ng-click="AddMinorAtFull(Minor)" class="btn btn-default" type="button"><span class="">Full</span></button>
+                                            <button  style="margin: 5px;" ng-click="AddAttemptedMinor(Minor)" class="btn btn-warning" type="button"><span class="">Attempt</span></button>
+                                        </div>
+                                    </td>
+                                  
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div ng-show="FelonyAdded.length > 0">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Felony Sentence Result</h1>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Sentence</th>
+                    <th>Remove</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="felony in FelonyAdded">
+                    <td>{{felony.Name}}</td>
+                    <td>{{felony.Ammount}}</td>
+                    <td><button ng-click="removeItem($index)" class="btn btn-danger"><span class="fa fa-times"></span></button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div ng-show="MisdemeanorsAdded.length > 0">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Misdemeanor Sentence Result</h1>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Sentence</th>
+                    <th>Remove</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="Misdemeanor in MisdemeanorsAdded">
+                    <td>{{Misdemeanor.Name}}</td>
+                    <td>{{Misdemeanor.Ammount}}</td>
+                    <td><button ng-click="removeMisdemeanorItem($index)" class="btn btn-danger"><span class="fa fa-times"></span></button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div ng-show="MinorsAdded.length > 0">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Minor Sentence Result</h1>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Sentence</th>
+                    <th>Remove</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="minor in MinorsAdded">
+                    <td>{{minor.Name}}</td>
+                    <td>{{minor.Ammount}}</td>
+                    <td><button ng-click="removeMinorItem($index)" class="btn btn-danger"><span class="fa fa-times"></span></button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    <br/>
+<div class="row">
+    <div class="col-xs-12">
+        <div>
+            Total Felony Sentence : {{FelonySentenceResult}} Minutes
+        </div>
+        <div>
+            Total Misdemeanor Sentence : {{MisdemeanorSentenceResult}} Minutes
+        </div>
+        <div>
+            Total Ticket Cost : ${{MinorSentenceResult}}
+        </div>
+        <div>
+            <label>
+                Pleaded Guilty?:
+                <input type="checkbox" ng-model="pleadedGuilty">
+
+            </label>
+        </div>
+        <div ng-show="pleadedGuilty">
+            <h3>Sentence Factor</h3>
+            <div>
+                <rzslider rz-slider-model="slider.value"
+                          rz-slider-options="slider.options"></rzslider>
+            </div>
+        </div>
+
+
+        <div>
+            <div ng-show="pleadedGuilty && AdjustedSentence <= 400">
+                Adjusted Prison Sentence : {{AdjustedSentence}} Minutes
+            </div>
+            <div ng-show="!pleadedGuilty && TotalPrisonSentence <= 400">
+                Prison Sentence : {{TotalPrisonSentence}} Minutes
+            </div>
+
+            <div ng-show="!pleadedGuilty && TotalPrisonSentence > 400">
+                <div class="alert alert-danger">
+                    Capital Punishment
+                </div>
+            </div>
+
+            <div ng-show="pleadedGuilty && AdjustedSentence > 400">
+                <div class="alert alert-danger">
+                    Capital Punishment
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <button ng-click="ResetLists()" class="btn btn-default">Reset Lists</button>
+        </div>
+    </div>
+    
+
+</div>
