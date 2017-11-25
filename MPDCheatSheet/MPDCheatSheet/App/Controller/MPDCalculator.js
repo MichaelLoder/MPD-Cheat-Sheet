@@ -1,4 +1,4 @@
-﻿app.controller('MPDCalculator', function($scope, $http) {
+﻿app.controller('MPDCalculator', function ($scope, $http, $filter) {
 
     $scope.FelonyLaws = [];
     $scope.MisdemeanorLaws = [];
@@ -47,6 +47,8 @@
             }
             $scope.FelonySentenceResult = totalSentence;
             $scope.TotalPrisonSentence = $scope.FelonySentenceResult + $scope.MisdemeanorSentenceResult;
+
+
         },true);
 
     $scope.$watch('MisdemeanorsAdded',
@@ -113,6 +115,7 @@
             Ammount: felony.Sentence,
             Name : felony.Name
         }
+        felony.QtyAmmount += 1;
         $scope.FelonyAdded.push(felonyAdded);
     }
 
@@ -122,6 +125,7 @@
             Ammount: felony.Sentence + felony.ArgSentence,
             Name: felony.Name
         }
+        felony.QtyAmmount += 1;
         $scope.FelonyAdded.push(felonyAdded);
     }
 
@@ -130,10 +134,13 @@
             Ammount: (felony.Sentence * 0.5),
             Name: felony.Name
         }
+        felony.QtyAmmount += 1;
         $scope.FelonyAdded.push(felonyAdded);
     }
 
-    $scope.removeItem = function (index) {
+    $scope.removeItem = function (index, name) {
+        var selectedFelony = $filter('filter')($scope.FelonyLaws, { Name: name })[0];
+        selectedFelony.QtyAmmount -= 1;
         $scope.FelonyAdded.splice(index, 1);
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,6 +151,7 @@
             Ammount: misdemeanor.Sentence,
             Name: misdemeanor.Name
         }
+        misdemeanor.QtyAmmount += 1;
         $scope.MisdemeanorsAdded.push(MisdemeanorAdded);
     }
 
@@ -152,6 +160,7 @@
             Ammount: misdemeanor.Sentence + misdemeanor.ArgSentence,
             Name: misdemeanor.Name
         }
+        misdemeanor.QtyAmmount += 1;
         $scope.MisdemeanorsAdded.push(MisdemeanorAdded);
     }
 
@@ -160,32 +169,39 @@
             Ammount: (misdemeanor.Sentence * 0.5),
             Name: misdemeanor.Name
         }
+        misdemeanor.QtyAmmount += 1;
         $scope.MisdemeanorsAdded.push(MisdemeanorAdded);
     }
 
-    $scope.removeMisdemeanorItem = function (index) {
+    $scope.removeMisdemeanorItem = function (index,name) {
+        var selectedMis = $filter('filter')($scope.MisdemeanorLaws, { Name: name })[0];
+        selectedMis.QtyAmmount -= 1;
         $scope.MisdemeanorsAdded.splice(index, 1);
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////// MINORS //////////////////////////////////////////////////////////////
-    $scope.AddMinorAtFull = function (misdemeanor) {
+    $scope.AddMinorAtFull = function (minor) {
         var MinorAdded = {
-            Ammount: misdemeanor.Sentence,
-            Name: misdemeanor.Name
+            Ammount: minor.Sentence,
+            Name: minor.Name
         }
+        minor.QtyAmmount += 1;
         $scope.MinorsAdded.push(MinorAdded);
     }
 
-    $scope.AddAttemptedMinor = function (misdemeanor) {
+    $scope.AddAttemptedMinor = function (minor) {
         var MinorAdded = {
-            Ammount: (misdemeanor.Sentence * 0.5),
-            Name: misdemeanor.Name
+            Ammount: (minor.Sentence * 0.5),
+            Name: minor.Name
         }
+        minor.QtyAmmount += 1;
         $scope.MinorsAdded.push(MinorAdded);
     }
 
-    $scope.removeMinorItem = function (index) {
+    $scope.removeMinorItem = function (index,name) {
+        var selectedMinor = $filter('filter')($scope.MinorLaws, { Name: name })[0];
+        selectedMinor.QtyAmmount -= 1;
         $scope.MinorsAdded.splice(index, 1);
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

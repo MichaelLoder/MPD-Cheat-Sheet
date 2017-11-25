@@ -166,7 +166,7 @@ namespace BLL
                 new Charge()
                 {
                     Name = "Bribery",
-                    Sentence = 45,
+                    Sentence = 25,
                 },
                 new Charge()
                 {
@@ -191,7 +191,7 @@ namespace BLL
                 new Charge()
                 {
                     Name = "Organ Distribution/Trafficking",
-                    Sentence = 35,
+                    Sentence = 25,
                     ArgSentence = 5,
                     HasAdditionalItems = true
                 },

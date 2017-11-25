@@ -9,5 +9,6 @@
         public int ID { get; set; }
         public bool HasAdditionalItems { get; set; }
         public double AdditionalSentence { get; set; }
+        public int QtyAmmount { get; set; }
     }
 }
